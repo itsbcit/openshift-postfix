@@ -24,10 +24,10 @@ task :default do
 
   render_template("Dockerfile.erb", "Dockerfile", binding)
   sh "docker build -t #{org_name}/#{image_name}:#{version} ."
-  # sh "docker push #{org_name}/#{image_name}:#{version}"
+  sh "docker push #{org_name}/#{image_name}:#{version}"
 
   tags.each do |tag|
       sh "docker tag #{org_name}/#{image_name}:#{version} #{org_name}/#{image_name}:#{tag}"
-      # sh "docker push #{org_name}/#{image_name}:#{tag}"
+      sh "docker push #{org_name}/#{image_name}:#{tag}"
   end
 end
