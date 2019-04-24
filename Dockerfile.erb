@@ -10,9 +10,6 @@ LABEL maintainer="jesse_weisner@bcit.ca"
 LABEL version="<%= version %>"
 
 RUN yum -y --setopt tsflags=nodocs --setopt timeout=5 install \
-    strace
-
-RUN yum -y --setopt tsflags=nodocs --setopt timeout=5 install \
     http://mirror.ghettoforge.org/distributions/gf/gf-release-latest.gf.el7.noarch.rpm
 
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-gf.el7
