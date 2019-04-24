@@ -24,5 +24,3 @@ if [ ! -d ${DATADIR} ];then
     chown postfix:postfix ${DATADIR}
     chmod 700 ${DATADIR}
 fi
-
-[ -f /etc/postfix/aliases ] && /usr/bin/newaliases
