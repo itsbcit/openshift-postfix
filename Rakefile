@@ -18,6 +18,7 @@ task :default do
   version = '3.3.3'
   version_segments = version.split('.')
   tags = [
+    "#{version_segments[0]}",
     "#{version_segments[0]}.#{version_segments[1]}",
     'latest'
   ]
