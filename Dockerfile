@@ -51,7 +51,7 @@ VOLUME /data
 VOLUME /etc/postfix
 VOLUME /etc/postfix-secrets
 
-EXPOSE 25 465
+EXPOSE 25 465 587
 
 COPY 70-postfix-config.sh /docker-entrypoint.d/70-postfix-config.sh
 
