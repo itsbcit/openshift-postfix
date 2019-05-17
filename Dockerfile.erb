@@ -14,7 +14,7 @@ RUN yum -y --setopt tsflags=nodocs --setopt timeout=5 install \
 
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-gf.el7
 
-RUN yum -y --enablerepo=gf-plus --setopt tsflags=nodocs --setopt timeout=5 install \
+RUN yum -y --enablerepo=gf-plus --enablerepo=gf-testing --setopt tsflags=nodocs --setopt timeout=5 install \
     postfix3-<%= version %> \
     postfix3-ldap-<%= version %> \
     postfix3-pcre-<%= version %>

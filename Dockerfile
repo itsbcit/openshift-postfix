@@ -7,17 +7,17 @@ ENV SECRETSDIR /etc/postfix-secrets
 ENV DATADIR /data/postfix
 
 LABEL maintainer="jesse_weisner@bcit.ca"
-LABEL version="3.3.3"
+LABEL version="3.4.4"
 
 RUN yum -y --setopt tsflags=nodocs --setopt timeout=5 install \
     http://mirror.ghettoforge.org/distributions/gf/gf-release-latest.gf.el7.noarch.rpm
 
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-gf.el7
 
-RUN yum -y --enablerepo=gf-plus --setopt tsflags=nodocs --setopt timeout=5 install \
-    postfix3-3.3.3 \
-    postfix3-ldap-3.3.3 \
-    postfix3-pcre-3.3.3
+RUN yum -y --enablerepo=gf-plus --enablerepo=gf-testing --setopt tsflags=nodocs --setopt timeout=5 install \
+    postfix3-3.4.4 \
+    postfix3-ldap-3.4.4 \
+    postfix3-pcre-3.4.4
 
 RUN postconf \
     inet_interfaces="all" \

@@ -15,7 +15,7 @@ task :default do
   maintainer = 'jesse_weisner@bcit.ca'
   org_name = 'bcit'
   image_name = 'openshift-postfix'
-  version = '3.3.3'
+  version = '3.4.4'
   version_segments = version.split('.')
   tags = [
     "#{version_segments[0]}",
