@@ -31,7 +31,7 @@ cp --dereference -r /${CONFIGDIR}/* /etc/postfix/
 newaliases
 
 
-# process mapm files with postmap
+# process map files with postmap
 if [ -e "${POSTMAP_LISTFILE}" ];then
     for postmap_file in $( cat ${POSTMAP_LISTFILE}); do postmap "$postmap_file"; done
 fi
