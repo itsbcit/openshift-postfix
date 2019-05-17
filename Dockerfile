@@ -5,6 +5,7 @@ ENV MAILSPOOLDIR /spool/mail
 ENV QUEUEDIR /spool/postfix
 ENV SECRETSDIR /etc/postfix-secrets
 ENV DATADIR /data/postfix
+ENV POSTMAP_LISTFILE /etc/postfix/postmap.lst
 
 LABEL maintainer="jesse_weisner@bcit.ca"
 LABEL version="3.4.4"
