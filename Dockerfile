@@ -1,6 +1,6 @@
 FROM bcit/centos:7
 
-ENV CONFIGDIR /etc/postfix
+ENV CONFIGDIR /config
 ENV MAILSPOOLDIR /spool/mail
 ENV QUEUEDIR /spool/postfix
 ENV SECRETSDIR /etc/postfix-secrets
@@ -35,7 +35,8 @@ RUN tar czf /postfix-config.tar.gz -C /etc/postfix . \
 RUN mkdir \
     /etc/postfix-secrets \
     /spool \
-    /data
+    /data \
+    /config
 
 RUN chown 0:0 /spool \
               /data \

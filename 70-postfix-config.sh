@@ -24,3 +24,4 @@ if [ ! -d ${DATADIR} ];then
     chown postfix:postfix ${DATADIR}
     chmod 700 ${DATADIR}
 fi
+cp --dereference -r /${CONFIGDIR}/* /etc/postfix/
