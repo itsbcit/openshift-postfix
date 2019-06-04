@@ -18,7 +18,8 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-gf.el7
 RUN yum -y --enablerepo=gf-plus --enablerepo=gf-testing --setopt tsflags=nodocs --setopt timeout=5 install \
     postfix3-3.4.4 \
     postfix3-ldap-3.4.4 \
-    postfix3-pcre-3.4.4
+    postfix3-pcre-3.4.4 \
+    cyrus-sasl-plain
 
 RUN postconf \
     inet_interfaces="all" \
