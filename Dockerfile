@@ -7,7 +7,7 @@ ENV SECRETSDIR /etc/postfix-secrets
 ENV DATADIR /data/postfix
 ENV POSTMAP_LISTFILE /etc/postfix/postmap-files
 
-LABEL maintainer="jesse_weisner@bcit.ca"
+LABEL maintainer="jesse_weisner@bcit.ca, Juraj Ontkanin"
 LABEL version="3.4.4"
 
 RUN yum -y --setopt tsflags=nodocs --setopt timeout=5 install \
@@ -19,6 +19,7 @@ RUN yum -y --enablerepo=gf-plus --enablerepo=gf-testing --setopt tsflags=nodocs 
     postfix3-3.4.4 \
     postfix3-ldap-3.4.4 \
     postfix3-pcre-3.4.4 \
+    cyrus-sasl \
     cyrus-sasl-plain
 
 RUN postconf \
