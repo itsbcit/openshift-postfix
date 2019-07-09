@@ -1,5 +1,7 @@
 FROM bcit/centos:7
 
+ENV ENVIRONMENT production
+
 ENV CONFIGDIR /config
 ENV MAILSPOOLDIR /spool/mail
 ENV QUEUEDIR /spool/postfix
