@@ -3,8 +3,8 @@ if [ "$EUID" != "0" ];then
     exit 255
 fi
 
-[ -f ${CONFIGDIR}/aliases ] || cp /etc/aliases ${CONFIGDIR}/aliases
-[ -f ${CONFIGDIR}/main.cf ] || tar zxf /postfix-config.tar.gz -C ${CONFIGDIR}
+[ -f "$CONFIGDIR"/aliases ] || cp /etc/aliases "$CONFIGDIR"/aliases
+[ -f "$CONFIGDIR"/main.cf ] || tar zxf /postfix-config.tar.gz -C "$CONFIGDIR"
 
 if [ ! -d ${MAILSPOOLDIR} ];then
     mkdir -p ${MAILSPOOLDIR}
@@ -25,11 +25,18 @@ if [ ! -d ${DATADIR} ];then
     chmod 700 ${DATADIR}
 fi
 
-cp --dereference -r /${CONFIGDIR}/* /etc/postfix/
+cp --dereference -r "$CONFIGDIR"/* /etc/postfix/
+
+if [ -f "$CONFIGDIR"/.DOCKERIZE.env ]; then
+    echo "loading ${CONFIGDIR}/.DOCKERIZE.env environment"
+    . "$CONFIGDIR"/.DOCKERIZE.env
+fi
+for config_file in $( find /etc/postfix -type f ); do 
+    dockerize -template "$config_file":"$config_file"
+done
 
 # generate aliases.db
 newaliases
-
 
 # process map files with postmap
 if [ -e "${POSTMAP_LISTFILE}" ];then
