@@ -35,11 +35,11 @@ RUN tar czf /postfix-config.tar.gz -C /etc/postfix . \
  && rm -rf /etc/postfix/* \
  && tar czf /postfix-spool.tar.gz -C /var/spool/postfix .
 
-RUN mkdir \
+RUN mkdir -p \
     /etc/postfix-secrets \
     /spool \
     /data \
-    /config
+    "$CONFIGDIR"
 
 RUN chown 0:0 /spool \
               /data \
