@@ -1,6 +1,9 @@
 FROM bcit/centos:7
 
-ENV ENVIRONMENT production
+LABEL maintainer="jesse_weisner@bcit.ca, Juraj Ontkanin"
+LABEL version="<%= version %>"
+
+ENV DOCKERIZE_ENV production
 
 ENV CONFIGDIR /config
 ENV MAILSPOOLDIR /spool/mail
@@ -8,9 +11,6 @@ ENV QUEUEDIR /spool/postfix
 ENV SECRETSDIR /etc/postfix-secrets
 ENV DATADIR /data/postfix
 ENV POSTMAP_LISTFILE /etc/postfix/postmap-files
-
-LABEL maintainer="jesse_weisner@bcit.ca, Juraj Ontkanin"
-LABEL version="<%= version %>"
 
 RUN yum -y --setopt tsflags=nodocs --setopt timeout=5 install \
     http://mirror.ghettoforge.org/distributions/gf/gf-release-latest.gf.el7.noarch.rpm
