@@ -28,10 +28,11 @@ fi
 cp --dereference -r "$CONFIGDIR"/* /etc/postfix/
 
 if [ -f "$CONFIGDIR"/.DOCKERIZE.env ]; then
-    echo "loading ${CONFIGDIR}/.DOCKERIZE.env environment"
+    echo "loading: ${CONFIGDIR}/.DOCKERIZE.env"
     . "$CONFIGDIR"/.DOCKERIZE.env
 fi
-for config_file in $( find /etc/postfix -type f ); do 
+for config_file in $( find /etc/postfix -type f -not -path '*/\.git/*' ); do 
+    echo "dockerizing: $config_file"
     dockerize -template "$config_file":"$config_file"
 done
 
