@@ -31,9 +31,12 @@ if [ -f "$CONFIGDIR"/.DOCKERIZE.env ]; then
     echo "loading: ${CONFIGDIR}/.DOCKERIZE.env"
     . "$CONFIGDIR"/.DOCKERIZE.env
 fi
-for config_file in $( find /etc/postfix -type f -not -path '*/\.git/*' -exec grep -Iq . {} \; -print ); do 
-    echo "dockerizing: $config_file"
-    dockerize -template "$config_file":"$config_file"
+for tmpl_file in $( find /etc/postfix -type f -name '*.tmpl' -not -path '*/\.git/*' ); do
+    config_file="$( dirname -- "$tmpl_file" )/$( basename -- "$tmpl_file" .tmpl )"
+    echo "dockerizing: ${tmpl_file}"
+    echo "         =>  ${config_file}"
+    dockerize -template "$tmpl_file":"$config_file" \
+    && rm -f "$tmpl_file"
 done
 
 # generate aliases.db
