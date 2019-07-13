@@ -31,6 +31,7 @@ if [ -f "$CONFIGDIR"/.DOCKERIZE.env ]; then
     echo "loading: ${CONFIGDIR}/.DOCKERIZE.env"
     . "$CONFIGDIR"/.DOCKERIZE.env
 fi
+echo "DOCKERIZE_ENV: ${DOCKERIZE_ENV}"
 for tmpl_file in $( find /etc/postfix -type f -name '*.tmpl' -not -path '*/\.git/*' ); do
     config_file="$( dirname -- "$tmpl_file" )/$( basename -- "$tmpl_file" .tmpl )"
     echo "dockerizing: ${tmpl_file}"
