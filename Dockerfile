@@ -6,10 +6,11 @@ LABEL version="3.4.4"
 ENV DOCKERIZE_ENV production
 
 ENV CONFIGDIR /config
-ENV MAILSPOOLDIR /spool/mail
-ENV QUEUEDIR /spool/postfix
-ENV SECRETSDIR /etc/postfix-secrets
-ENV DATADIR /data/postfix
+ENV CONFIGDIR_SSL /config-ssl
+
+ENV SPOOLDIR /spool
+ENV DATADIR /data
+
 ENV POSTMAP_LISTFILE /etc/postfix/postmap-files
 
 RUN yum -y --setopt tsflags=nodocs --setopt timeout=5 install \
@@ -24,38 +25,47 @@ RUN yum -y --enablerepo=gf-plus --enablerepo=gf-testing --setopt tsflags=nodocs 
     cyrus-sasl \
     cyrus-sasl-plain
 
+RUN mkdir -p \
+    "${CONFIGDIR}" \
+    "${CONFIGDIR_SSL}"
+
 RUN postconf \
     inet_interfaces="all" \
     inet_protocols="ipv4" \
     alias_database=hash:/etc/postfix/aliases \
     alias_maps=hash:/etc/postfix/aliases \
-    mail_spool_directory=/spool/mail \
-    queue_directory=/spool/postfix \
-    data_directory=/data/postfix
+    mail_spool_directory="${SPOOLDIR}/mail" \
+    queue_directory="${SPOOLDIR}/postfix" \
+    data_directory="${DATADIR}/postfix"
 
-RUN tar czf /postfix-config.tar.gz -C /etc/postfix . \
- && rm -rf /etc/postfix/* \
- && tar czf /postfix-spool.tar.gz -C /var/spool/postfix .
+## Configuration: /etc/postfix
+RUN cp --dereference -r /etc/postfix/* "${CONFIGDIR}"/ \
+ && rm -rf /etc/postfix \
+ && mkdir -p /etc/postfix \
+ && chown -R 0:0 /etc/postfix \
+ && chmod -R 755 /etc/postfix
 
-RUN mkdir -p \
-    /etc/postfix-secrets \
-    /spool \
-    /data \
-    "$CONFIGDIR"
+## Certificates
+RUN rm -rf /etc/ssl/postfix \
+ && mkdir -p /etc/ssl/postfix \
+ && chown 0:0 /etc/ssl/postfix \
+ && chmod 770 /etc/ssl/postfix
 
-RUN chown 0:0 /spool \
-              /data \
-              /etc/postfix \
-              /etc/postfix-secrets \
- && chmod 775 /spool \
-              /data \
-              /etc/postfix \
-              /etc/postfix-secrets
+## Spool & Data
+RUN tar czf /postfix-spool.tar.gz -C /var/spool/postfix . \
+ && mkdir -p \
+    "$SPOOLDIR" \
+    "$DATADIR" \
+ && chown 0:0 \
+    "$SPOOLDIR" \
+    "$DATADIR" \
+ && chmod 775 \
+    "$SPOOLDIR" \
+    "$DATADIR"
 
-VOLUME /spool
-VOLUME /data
 VOLUME /etc/postfix
-VOLUME /etc/postfix-secrets
+VOLUME "$SPOOLDIR"
+VOLUME "$DATADIR"
 
 EXPOSE 25 465 587
 

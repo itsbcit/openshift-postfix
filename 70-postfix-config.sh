@@ -1,31 +1,30 @@
-if [ "$EUID" != "0" ];then
+if [ "$EUID" != "0" ]; then
     echo 'This container must run as root :(' >&2
     exit 255
 fi
 
+mkdir -p "${SPOOLDIR}/mail"
+chown postfix:postfix "${SPOOLDIR}/mail"
+chmod 700 "${SPOOLDIR}/mail"
+
+if [ ! -d "${SPOOLDIR}/postfix" ]; then
+    mkdir -p "${SPOOLDIR}/postfix"
+    tar zxf /postfix-spool.tar.gz -C "${SPOOLDIR}/postfix"
+fi
+chown root:postfix "${SPOOLDIR}/postfix"
+chmod 750 "${SPOOLDIR}/postfix"
+
+mkdir -p "${DATADIR}/postfix"
+chown postfix:postfix "${DATADIR}/postfix"
+chmod 700 "${DATADIR}/postfix"
+
 [ -f "$CONFIGDIR"/aliases ] || cp /etc/aliases "$CONFIGDIR"/aliases
-[ -f "$CONFIGDIR"/main.cf ] || tar zxf /postfix-config.tar.gz -C "$CONFIGDIR"
 
-if [ ! -d ${MAILSPOOLDIR} ];then
-    mkdir -p ${MAILSPOOLDIR}
-    chown postfix:postfix ${MAILSPOOLDIR}
-    chmod 700 ${MAILSPOOLDIR}
-fi
+stat "${CONFIGDIR}"/* >/dev/null 2>&1
+[ $? -eq 0 ] && cp --dereference -r "${CONFIGDIR}"/* /etc/postfix/
 
-if [ ! -d ${QUEUEDIR} ];then
-    mkdir -p ${QUEUEDIR}
-    chown postfix:postfix ${QUEUEDIR}
-    chmod 700 ${QUEUEDIR}
-    tar zxf /postfix-spool.tar.gz -C ${QUEUEDIR}
-fi
-
-if [ ! -d ${DATADIR} ];then
-    mkdir -p ${DATADIR}
-    chown postfix:postfix ${DATADIR}
-    chmod 700 ${DATADIR}
-fi
-
-cp --dereference -r "$CONFIGDIR"/* /etc/postfix/
+stat "${CONFIGDIR_SSL}"/* >/dev/null 2>&1
+[ $? -eq 0 ] && cp --dereference -r "${CONFIGDIR_SSL}"/* /etc/ssl/postfix/
 
 if [ -f "$CONFIGDIR"/.DOCKERIZE.env ]; then
     echo "loading: ${CONFIGDIR}/.DOCKERIZE.env"
