@@ -1,0 +1,9 @@
+---
+image_name: openshift-postfix
+labels:
+  maintainer: 'jesse_weisner@bcit.ca, Juraj Ontkanin'
+  postfix_version: '3.4.6'
+suffixes:
+  - '3.4'
+  - '3.4-latest'
+  - '3'

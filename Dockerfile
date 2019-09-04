@@ -1,7 +1,7 @@
 FROM bcit/centos:7
-
 LABEL maintainer="jesse_weisner@bcit.ca, Juraj Ontkanin"
-LABEL version="3.4.4"
+LABEL postfix_version="3.4.6"
+LABEL build_id="1567620893"
 
 ENV DOCKERIZE_ENV production
 
@@ -19,9 +19,9 @@ RUN yum -y --setopt tsflags=nodocs --setopt timeout=5 install \
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-gf.el7
 
 RUN yum -y --enablerepo=gf-plus --enablerepo=gf-testing --setopt tsflags=nodocs --setopt timeout=5 install \
-    postfix3-3.4.4 \
-    postfix3-ldap-3.4.4 \
-    postfix3-pcre-3.4.4 \
+    postfix3-3.4.6 \
+    postfix3-ldap-3.4.6 \
+    postfix3-pcre-3.4.6 \
     cyrus-sasl \
     cyrus-sasl-plain
 
