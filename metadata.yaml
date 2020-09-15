@@ -4,6 +4,7 @@ labels:
   maintainer: 'jesse_weisner@bcit.ca, Juraj Ontkanin'
   postfix_version: '3.5.7'
 suffixes:
+  - '3.5.7'
   - '3.5'
   - '3.5-latest'
   - '3'

@@ -1,7 +1,7 @@
 FROM bcit/centos:7
 LABEL maintainer="jesse_weisner@bcit.ca, Juraj Ontkanin"
 LABEL postfix_version="3.5.7"
-LABEL build_id="1599854978"
+LABEL build_id="1600202035"
 
 ENV DOCKERIZE_ENV production
 
